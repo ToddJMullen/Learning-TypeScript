@@ -1,0 +1,7 @@
+*.zip
+LearningTypeScript_Code
+node_modules
+bower_components
+temp
+coverage
+=*

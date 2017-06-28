@@ -1,0 +1,38 @@
+{
+  "name": "learning-typescript",
+  "description": "Me (Todd Mullen) playing along with PacktPub's Learning TypeScript",
+  "main": "gulpfile.js",
+  "authors": [
+    "Todd Mullen (via Remo Jansen)"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "TypeScript",
+    "Atom",
+    "Node",
+    "npm",
+    "apm",
+    "tsd",
+    "Bower",
+    "jQuery",
+    "@types",
+    "typings",
+    "gulp",
+    "jasmine"
+  ],
+  "homepage": "https://github.com/ToddJMullen/Learning-TypeScript",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "jasmine-core": "jasmine#^2.6.4"
+  }
+}
