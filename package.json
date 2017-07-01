@@ -37,6 +37,7 @@
   "homepage": "https://github.com/ToddJMullen/Learning-TypeScript#readme",
   "devDependencies": {
     "browser-sync": "^2.18.12",
+    "browserify": "^14.4.0",
     "chai": "^4.0.2",
     "gulp": "^3.9.1",
     "gulp-karma": "0.0.5",
@@ -50,7 +51,10 @@
     "karma-sinon": "^1.0.5",
     "mocha": "^3.4.2",
     "run-sequence": "^1.2.2",
-    "sinon": "^2.3.5"
+    "sinon": "^2.3.5",
+    "tsify": "^3.0.1",
+    "typescript": "^2.4.1",
+    "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "@types/jquery": "^3.2.4",

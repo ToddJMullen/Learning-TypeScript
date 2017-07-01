@@ -1,3 +1,7 @@
+//this is the version that I've come up with from the book
+//for learnign purposes I'll create others that will do something besides throw error via tutorials
+
+
 //define var / util references needed to define the desired tasks
 var gulp		= require("gulp")
 ,tslint			= require("gulp-tslint")
@@ -21,7 +25,7 @@ var gulp		= require("gulp")
 , tsProject = ts.createProject({
     removeComments      : true
     ,noImplicitAny      : true
-    ,target             : "ES3"
+    ,target             : "es6"
     ,module             : "commonjs"
     ,declarationFiles   : false
 })
@@ -29,7 +33,7 @@ var gulp		= require("gulp")
 ,tsTestProject  = ts.createProject({
     removeComments      : true
     ,noImplicitAny      : true
-    ,target             : "ES3"
+    ,target             : "es6"
     ,module             : "commonjs"
     ,declarationFiles   : false
 })

@@ -1,0 +1,10 @@
+{
+	"files":[
+		"source/main.ts"
+		,"source/greet.ts"
+	]
+	,"compilerOptions": {
+		"noImplicitAny": true
+		,"target": "es6"
+	}
+}
