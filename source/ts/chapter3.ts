@@ -6,7 +6,6 @@
 
 //functions
 console.log(greetNamed("ToddJMullen"));
-// console.log(greetUnnamed("ToddJMullen"));
 
 function greetNamed( name: string ){
 	if( name ){

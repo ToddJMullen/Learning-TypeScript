@@ -5,10 +5,9 @@ import { sayHello }	from "./greet";
 
 // console.log( sayHello("Inline "))
 
-function showHello(divId:string, name:string){
+function showHello(divId:string, msg:string){
 	const elem = document.getElementById(divId);
-	elem.innerText = sayHello(name);
+	elem.innerText = sayHello( msg );
 }
-
 
 showHello("greeting", "TypeScript");

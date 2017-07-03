@@ -5,3 +5,6 @@ bower_components
 temp
 coverage
 =*
+txp
+nbproject
+www/src

@@ -81,3 +81,105 @@ git clone https://github.com/ToddJMullen/Learning-TypeScript.git
 1113  git reset =*
 1114  git status
 1115  history
+1121  git status
+1122  git add .
+1123  git status
+1124  git commit -m "End of Chapter 2
+1125  Nothing seems to be working and I've had to research just about everything mentioned because everything was throwing errors and deprecation wornings.
+1126  The typings / tsd / DefinitelyTyped TypeScript library definitions have been changed to use another format that is supposed to be simpler and usable directly via npm. However, it seems that even something as ubiquitous as jQuery seems to be not working correctly or easily.
+1127  However, I'm not totally sure what the root cause is of the errors because there are/were practically no *instructions* to _do_ anything and there is no TypeScript source that was cited to by transpiled or tested -- so perhaps that's the origin of some of the errors???
+1128  The gulpfile from the book downloads contains a lot of stuff that is never mentioned in addition to changes that were also not mentioned, but I had already found while researching the errors I was seeing.
+1129  So far, Chapter two: 1.5 of 5 stars =( "
+1130  git push
+1131  git config --global push.default simple
+1132  git status
+1133  git branch
+1134  git checkout -b dev
+1135  git push
+1136  git push -set-upstream origin dev
+1137  git push --set-upstream origin dev
+1138  git branch --all
+1139  git push
+1140  git help push
+1141  git config --global credential.helper cache
+1142  git config --global credential.helper 'cache --timeout=3600'
+1143  git push
+1144  gulp
+1145  gulp lint
+1146  gulp tsc
+1147  npm install -g gulp-cli
+1148  whoami
+1149  npm config get prefix
+1150  ls -la /usr
+1151  cd /usr/local
+1152  ls
+1153  ls lib
+1154  cd ..
+1155  cd lib/
+1156  ls
+1157  cd node_modules/
+1158  ls
+1159  cd ..
+1160  ls -la /node_modules
+1161  ls -la node_modules
+1162  ls
+1163  sudo chown -R todd /usr/lib/node_modules/
+1164  sudo chown -R todd /usr/bin
+1165  sudo chown -R todd /usr/share/
+1166  npm install -g gulp-cli
+1167  cd ~/Dev/
+1168  ls
+1169  cd books/Learning-TypeScript/
+1170  sudo npm install -g gulp-cli
+1171  cd /usr/bin
+1172  ls -l sudo
+1173  sudo -i
+1174  su -
+1175  cd ~
+1176  ls
+1177  ln -s Dev WebDev
+1178  cd WebDev
+1179  ls
+1180  npm install -g gulp-cli
+1181  sudo npm install -g gulp-cli
+1182  cd books/Learning-TypeScript/
+1183  npm install --save-dev typescript gulp gulp-typescript
+1184  gulp
+1185  node dist/main.js
+1186  nano dist/main.js
+1187  gulpnano dist/main.js
+1188  gulp && nano dist/main.js
+1189  gulp && node dist/main.js
+1190  nano dist/main.js
+1191  nano dist/greet.js
+1192  npm install --save-dev browserify tsify vinyl-source-stream
+1193  gulp
+1194  gedit dist/main.js
+1195  gedit dist/index.html
+1196  gksudo gedit /dist/index.html
+1197  gulp
+1198  node dist/index.html
+1199  gulp
+1200  gulp build
+1201  git status
+1202  git log
+1203  git add .
+1204  git status
+1205  git commit -m "Follow along with the tutorial on typescript.org up until / just before they add Watchify, Uglify, & Babel.  Rename their gulpfile to ts-
+org_gulpfile.js and make some changes to the original gulpfile.js from the book.  Mainly (all I remember presently) changing the build target to ES6 due to a missing declaration for ?iterator? if targeting ES5.
+
+This gives build warnings of "ts(tsProject) has been deprecated - use .pipe(tsProject(reporter)) instead" but seems like it actually accompliahing something, though I am not sure how to verify any of it just yet, though I thought I'd commit now since I've not looked at it in a few days."
+1206  git log
+1207  git commit -m "Follow along with the tutorial on typescript.org up until / just before they add Watchify, Uglify, & Babel.  Rename their gulpfile to ts-
+org_gulpfile.js and make some changes to the original gulpfile.js from the book.  Mainly (all I remember presently) changing the build target to ES6 due to a missing declaration for ?iterator? if targeting ES5.
+
+This gives build warnings of \"ts(tsProject) has been deprecated - use .pipe(tsProject(reporter)) instead\" but seems like it actually accompliahing something, though I am not sure how to verify any of it just yet, though I thought I'd commit now since I've not looked at it in a few days."
+1208  git log
+1209  gulp ts-org_gulpfile.js
+1210  man gulp
+1211  gulp --gulpfile ts-org_gulpfile.js
+1212  npm install --save-dev watchify gulp-util
+1213  gulp --gulpfile ts-org_gulpfile.js
+1214  npm install --save-dev gulp-uglify vinyl-buffer gulp-sourcemaps
+1215  gulp --gulpfile ts-org_gulpfile.js
+1216  history

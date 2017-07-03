@@ -3,7 +3,10 @@
 
 
 //define var / util references needed to define the desired tasks
-var gulp		= require("gulp")
+var	source		= "./source/"
+,transpiled		= "./txp/"
+,prodDistro		= "./www/"
+,gulp			= require("gulp")
 ,tslint			= require("gulp-tslint")
 ,ts				= require("gulp-typescript")
 ,browserify		= require("browserify")
@@ -13,6 +16,10 @@ var gulp		= require("gulp")
 ,karma			= require("gulp-karma")
 ,runSequence	= require("run-sequence")
 ,browserSync	= require("browser-sync")
+
+//added this based on comments when researching dest.write() error saying that vinyl-transform
+//does not have a stream & will not sork with browserify
+,buffer			= require('vinyl-buffer')
 
 //define complex objects used in defining the tasks
 ,browserified	= transform(function(filename){
@@ -41,58 +48,165 @@ var gulp		= require("gulp")
 
 //define a default gulp task that names subordinate tasks that are to be performed.
 //gulp.task("default", ["myInit","lint","tsc","tsc-tests","bundle-js","bundle-test"] );
-gulp.task("build", ["myInit","lint","tsc","tsc-tests","bundle-js","bundle-test"] );
-
-gulp.task("myInit", function(){
-  console.log("Gulp! Gulp!! Gulp!!!");
-});
+gulp.task("build", [
+	"lint"
+	,"tsc"
+	,"bundle-js"
+	,"bundle-css"
+//	,"tsc-tests"
+//	,"bundle-test"
+] );
 
 //define a gulp task for linting the code
 gulp.task("lint", function(){
   return gulp.src([
-    "./source/ts/**/**.ts"
-	,"./test/**/**.test.ts"
+    source + "ts/**/**.ts"
+//	,source + "test/**/**.test.ts"
   ])
   //this is how the book has it defined
 //  .pipe(tslint())//send all files matching those patterns into tslint()
 //this is how the npm documentation shows
   .pipe(tslint({
-	  formatter: "prose"
+	  formatter: "verbose"
   }))//send all files matching those patterns into tslint()
   .pipe(tslint.report());//send tslint() output into tslint.report()
 });
 
-//define a gulp task to compile the application's TypeScript
+/////////////////////
+// define the TypeScript compilation tasks
+/////////////////////
+//
+//define a gulp task to compile the application's TypeScript into Javascript
 gulp.task("tsc", function(){
-    return gulp.src("./source/ts/**/**.ts")
-            .pipe(ts(tsProject))
-            .js.pipe(gulp.dest("./temp/source/js"));
+	console.log("'tsc' building TypeScript files.");
+    return gulp.src( source + "ts/**/**.ts")
+			.pipe(ts(tsProject))
+            .js.pipe(gulp.dest( transpiled + "out/js"));
 });
 
-//define a gulp task to compile the application's test code
-gulp.task("tsc-tests", function(){
-    return gulp.src("./test/**/**.test.ts")//get these files
-                .pipe(ts(tsTestProject))//send them into the ts object with the test configuration
-                .js.pipe(gulp.dest("./temp/test/"));//send the js output into this dir
+gulp.task("bundle-css", function(){
+	console.log("'bundle-css' parsing css files.");
+	return gulp.src( source + "styles/**/**.css")
+		.pipe( gulp.dest( transpiled + "out/css/"));
 });
 
+
+/////////////////////
+// define Prod build tasks for combining, minifying etc.
+/////////////////////
 gulp.task("bundle-js", function(){
-	return gulp.src("./temp/source/js/main.js")
-				.pipe(browserified)
-				.pipe(sourcemaps.init({loadMaps: true}))
-				.pipe(uglify())
-				.pipe(sourcemaps.write("./"))
-				.pipe(gulp.dest("./dist/source/js/"))
+	console.log("'bundle-js' parsing built Javascript files.")
+	return gulp.src( transpiled + "out/js/**.js")
+//				.pipe(browserified)
+//				.pipe(sourcemaps.init({loadMaps: true}))
+//				.pipe(buffer())//added to fix dest.write() error
+//				.pipe(uglify())
+//				.pipe(sourcemaps.write( "./" ))
+				.pipe(gulp.dest("www/src/js"))
+});
+
+gulp.task("bundle-css", function(){
+	console.log("'bundle-css' parsing/copying stylesheet files.")
+	return gulp.src( transpiled + "out/css/**.css")
+//				.pipe(browserified)
+//				.pipe(buffer())//added to fix dest.write() error
+//				.pipe(uglify())
+				.pipe(gulp.dest("www/src/css"))
+});
+
+
+//group together all the build related tasks
+gulp.task("bundle", function(cb){
+	console.log("'bundle' calling 'build' after 'bundle-js'");
+	runSequence("build", [
+		"bundle-js"
+		,"bundle-css"
+	], cb);
+});
+
+
+/////////////////////////
+// setup a watch for changes to the TypeScript files that will trigger a build
+/////////////////////////
+gulp.task("watch-ts",["build"], function(){
+//gulp.task("watch-ts",["browser-sync"], function(){
+	console.log("'watch-ts' telling gulp to watch the TypeScript folder"
+					+ " after telling gulp to watch the prod folders.");
+/*	browserSync({
+		server: {
+			baseDir: prodDistro
+		}
+	});*/
+	return gulp.watch([
+		"source/ts/**/*.ts"
+		,"source/styles/**/*.css"
+	], ["build","bundle"]);
+});//watch-ts
+
+
+
+
+
+
+
+
+
+
+// Trying to make a minimal file...
+// I've moved these down here because they're just dding to the confusion of trying to learn
+// this stuff & I'll reposition & add these back once I understand how they're supposed
+// to be wired together.
+
+
+//group together all the test related tasks
+gulp.task("test", function(cb){
+//	runSequence("bundle", ["karma"], cb);
+console.log("'test' calling 'bundle'");
+	runSequence("bundle", cb);
+});
+
+/////////////////////////
+// setup browser sync to watch for changes & refresh on demand
+/////////////////////////
+
+gulp.task("browser-sync",["test"], function(){
+	//var prodDistro = prodDistro;
+	console.log("'browser-sync' called");
+	browserSync({
+		server: {
+			baseDir: prodDistro
+		}
+	});
+	return gulp.watch([
+		prodDistro + "src/js/**/*.js"
+		,prodDistro + "src/css/**/*.css"
+//		,prodDistro + "test/css/**/**/*.test.js"
+		,prodDistro + "data/**/**"
+		,prodDistro + "**.html"
+	], [browserSync.reload]);
+});
+
+
+
+
+//define a gulp task to compile the application's TypeScript test code into Javascript
+gulp.task("tsc-tests", function(){
+    return gulp.src( source + "test/**/**.test.ts")//get these files
+                .pipe(ts(tsTestProject))//send them into the ts object with the test configuration
+                .js.pipe(gulp.dest( transpiled + "test/"));//send the js output into this dir
 });
 
 gulp.task("bundle-test", function(){
-	return gulp.src("./temp/test/**/**.test.js")
+	return gulp.src( transpiled +  "test/**/**.test.js")
 				.pipe(browserified)
-				.pipe(gulp.dest("./dist/test/"));
+				.pipe(gulp.dest( "www/dist/test/"));
 });
 
+
+
 gulp.task("karma", function(cb){
-	gulp.src("./dist/test/**/**.test.js")
+	var prodDistro = prodDistro;
+	gulp.src( prodDistro + "test/**/**.test.js")
 	.pipe(karma({
 		configFile: "karma.conf.js"
 		,action: "run"
@@ -104,33 +218,6 @@ gulp.task("karma", function(cb){
 	});
 });
 
-//group together all the build related tasks
-gulp.task("bundle", function(cb){
-	runSequence("build", [
-		"bundle-js"
-		,"bundle-test"
-	], cb);
-});
-
-//group together all the test related tasks
-gulp.task("test", function(cb){
-	runSequence("bundle", ["karma"], cb);
-});
-
-gulp.task("browser-sync",["test"], function(){
-	browserSync({
-		server: {
-			baseDir: "./dist"
-		}
-	});
-	return gulp.watch([
-		"./dist/source/js/**/*.js"
-		,"./dist/source/css/**/*.css"
-		,"./dist/test/css/**/**/*.test.js"
-		,"./dist/data/**/**"
-		,"./index.html"
-	], [browserSync.reload]);
-});
 
 
 //We must control the flow sequence of Gulp tasks to ensure proper execution
