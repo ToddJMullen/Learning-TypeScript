@@ -47,13 +47,13 @@ var	source		= "./source/"
 ;
 
 //define a default gulp task that names subordinate tasks that are to be performed.
-//gulp.task("default", ["myInit","lint","tsc","tsc-tests","bundle-js","bundle-test"] );
-gulp.task("build", [
+//gulp.task("default", ["myInit","lint","build-ts","build-ts-tests","bundle-js","bundle-test"] );
+gulp.task("build-all", [
 	"lint"
-	,"tsc"
+	,"build-ts"
 	,"bundle-js"
-	,"bundle-css"
-//	,"tsc-tests"
+	,"build-css"
+//	,"build-ts-tests"
 //	,"bundle-test"
 ] );
 
@@ -77,14 +77,14 @@ gulp.task("lint", function(){
 /////////////////////
 //
 //define a gulp task to compile the application's TypeScript into Javascript
-gulp.task("tsc", function(){
-	console.log("'tsc' building TypeScript files.");
+gulp.task("build-ts", function(){
+	console.log("'build-ts' building TypeScript files.");
     return gulp.src( source + "ts/**/**.ts")
 			.pipe(ts(tsProject))
             .js.pipe(gulp.dest( transpiled + "out/js"));
 });
 
-gulp.task("bundle-css", function(){
+gulp.task("build-css", function(){
 	console.log("'bundle-css' parsing css files.");
 	return gulp.src( source + "styles/**/**.css")
 		.pipe( gulp.dest( transpiled + "out/css/"));
@@ -115,10 +115,10 @@ gulp.task("bundle-css", function(){
 });
 
 
-//group together all the build related tasks
+//group together all the build-all related tasks
 gulp.task("bundle", function(cb){
-	console.log("'bundle' calling 'build' after 'bundle-js'");
-	runSequence("build", [
+	console.log("'bundle' calling 'build-all' after 'bundle-js'");
+	runSequence("build-all", [
 		"bundle-js"
 		,"bundle-css"
 	], cb);
@@ -128,7 +128,7 @@ gulp.task("bundle", function(cb){
 /////////////////////////
 // setup a watch for changes to the TypeScript files that will trigger a build
 /////////////////////////
-gulp.task("watch-ts",["build"], function(){
+gulp.task("watch-ts",["build-all"], function(){
 //gulp.task("watch-ts",["browser-sync"], function(){
 	console.log("'watch-ts' telling gulp to watch the TypeScript folder"
 					+ " after telling gulp to watch the prod folders.");
@@ -140,7 +140,7 @@ gulp.task("watch-ts",["build"], function(){
 	return gulp.watch([
 		"source/ts/**/*.ts"
 		,"source/styles/**/*.css"
-	], ["build","bundle"]);
+	], ["build-all","bundle"]);
 });//watch-ts
 
 
@@ -190,7 +190,7 @@ gulp.task("browser-sync",["test"], function(){
 
 
 //define a gulp task to compile the application's TypeScript test code into Javascript
-gulp.task("tsc-tests", function(){
+gulp.task("build-ts-tests", function(){
     return gulp.src( source + "test/**/**.test.ts")//get these files
                 .pipe(ts(tsTestProject))//send them into the ts object with the test configuration
                 .js.pipe(gulp.dest( transpiled + "test/"));//send the js output into this dir

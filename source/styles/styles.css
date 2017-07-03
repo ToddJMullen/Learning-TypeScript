@@ -19,9 +19,23 @@ body{
 	background: linear-gradient(135deg, #fefcea 0%,#f1da36 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=1 );
 }
-
 .body{
 	min-height: 1000px;
-	color: green;
+	color: #333;
+	/*font-variant: small-caps;*/
+}
+
+a:link{
+	text-decoration: none;
+	font-style: oblique;
+}
+
+li{
+	list-style: none;
+	list-style-position: outside;
+	display: inline-block;
+	margin-right: 3px;
+	padding: 3px;
+	border: 2px outset buttonface;
 }
 

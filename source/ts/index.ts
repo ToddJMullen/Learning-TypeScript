@@ -17,4 +17,5 @@ pageAry.map((filename) => {
 });
 
 title.innerText = "Created " + pageAry.length + " page links.";
+console.log("... index.ts complete");
 
