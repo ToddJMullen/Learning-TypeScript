@@ -53,6 +53,7 @@ gulp.task("build-all", [
 	,"build-ts"
 	,"bundle-js"
 	,"build-css"
+	,"build-html"
 //	,"build-ts-tests"
 //	,"bundle-test"
 ] );
@@ -87,7 +88,13 @@ gulp.task("build-ts", function(){
 gulp.task("build-css", function(){
 	console.log("'bundle-css' parsing css files.");
 	return gulp.src( source + "styles/**/**.css")
-		.pipe( gulp.dest( transpiled + "out/css/"));
+			.pipe( gulp.dest( transpiled + "out/css/"));
+});
+
+gulp.task("build-html", function(){
+	console.log("'bundle-html' copying html files.");
+	return gulp.src( source + "html/**/*.html")
+			.pipe( gulp.dest( prodDistro + ""));
 });
 
 
@@ -128,9 +135,9 @@ gulp.task("bundle", function(cb){
 /////////////////////////
 // setup a watch for changes to the TypeScript files that will trigger a build
 /////////////////////////
-gulp.task("watch-ts",["build-all"], function(){
+gulp.task("build-and-watch",["build-all"], function(){
 //gulp.task("watch-ts",["browser-sync"], function(){
-	console.log("'watch-ts' telling gulp to watch the TypeScript folder"
+	console.log("'build-and-watch' telling gulp to watch the TypeScript, CSS, & html folders"
 					+ " after telling gulp to watch the prod folders.");
 /*	browserSync({
 		server: {
@@ -140,6 +147,7 @@ gulp.task("watch-ts",["build-all"], function(){
 	return gulp.watch([
 		"source/ts/**/*.ts"
 		,"source/styles/**/*.css"
+		,"source/**/*.html"
 	], ["build-all","bundle"]);
 });//watch-ts
 
