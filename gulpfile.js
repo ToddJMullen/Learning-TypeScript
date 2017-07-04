@@ -32,7 +32,7 @@ var	source		= "./source/"
 , tsProject = ts.createProject({
     removeComments      : true
     ,noImplicitAny      : true
-    ,target             : "es6"
+    ,target             : "es4"
     ,module             : "commonjs"
     ,declarationFiles   : false
 })
