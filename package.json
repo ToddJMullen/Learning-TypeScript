@@ -62,7 +62,9 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
-    "@types/jquery": "2.0.47",
+    "@types/handlebars": "^4.0.33",
+    "@types/jquery": "^2.0.47",
+    "@types/q": "^1.0.2",
     "jquery": "^3.2.1"
   }
 }

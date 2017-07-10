@@ -10,19 +10,30 @@
  ***********************/
 
 body{
-	height: 100%; width: 100%;
-	padding: 10px;
+	height: 100%;
+	padding: 5px;
+	margin-bottom: 40px;
 	font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
-	background: #fefcea;
-	background: -moz-linear-gradient(-45deg, #fefcea 0%, #f1da36 100%);
-	background: -webkit-linear-gradient(-45deg, #fefcea 0%,#f1da36 100%);
-	background: linear-gradient(135deg, #fefcea 0%,#f1da36 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=1 );
+	background: rgb(89,106,114);
+	background: -moz-linear-gradient(top, rgba(89,106,114,1) 0%, rgba(206,220,231,1) 100%);
+	background: -webkit-linear-gradient(top, rgba(89,106,114,1) 0%,rgba(206,220,231,1) 100%);
+	background: linear-gradient(to bottom, rgba(89,106,114,1) 0%,rgba(206,220,231,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#596a72', endColorstr='#cedce7',GradientType=0 );
 }
 .body{
 	min-height: 1000px;
 	color: #333;
 	/*font-variant: small-caps;*/
+}
+h1{
+	font-size: 2em;
+}
+#pageMsgs h1{
+	font-size: 1.75em;
+	margin: 5px;
+}
+h2{
+	margin: 5px;
 }
 
 a:link{
@@ -39,9 +50,39 @@ li{
 	border: 2px outset buttonface;
 }
 
+#pageMsgs{
+	padding: 7px;
+	background-color: rgba(235,255,235,.6 );
+}
+
+.pageNum{
+	float: right;
+    margin: -35px -5px 5px 5px;
+    padding-top: 7px;
+    height: 31px;
+    width: 75px;
+    text-align: center;
+    font-style: italic;
+    border-radius: 50%;
+    border: 1px outset burlywood;
+    background-color: rgba(255,255,255,0.7);
+}
+.pageNum .line{
+	font-size: 8px;
+}
+
+p{
+	margin: 5px;
+}
+
 footer{
 	position: fixed;
-	bottom: 0;
+	bottom: 0; left: 0; right: 0;
 	padding: 5px;
 	font-size: small;
+	background: #d5cea6;
+	background: -moz-linear-gradient(top, #d5cea6 0%, #c9c190 40%, #b7ad70 100%);
+	background: -webkit-linear-gradient(top, #d5cea6 0%,#c9c190 40%,#b7ad70 100%);
+	background: linear-gradient(to bottom, #d5cea6 0%,#c9c190 40%,#b7ad70 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d5cea6', endColorstr='#b7ad70',GradientType=0 );
 }

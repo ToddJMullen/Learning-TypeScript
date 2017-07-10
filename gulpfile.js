@@ -32,7 +32,7 @@ var	source		= "./source/"
 , tsProject = ts.createProject({
     removeComments      : true
     ,noImplicitAny      : true
-    ,target             : "es4"
+    ,target             : "es6"
     ,module             : "commonjs"
     ,declarationFiles   : false
 })
@@ -81,7 +81,7 @@ gulp.task("lint", function(){
 gulp.task("build-ts", function(){
 	console.log("'build-ts' building TypeScript files.");
     return gulp.src( source + "ts/**/**.ts")
-			.pipe(ts(tsProject))
+			.pipe(tsProject())
             .js.pipe(gulp.dest( transpiled + "out/js"));
 });
 
@@ -137,7 +137,7 @@ gulp.task("bundle", function(cb){
 /////////////////////////
 gulp.task("build-and-watch",["build-all"], function(){
 //gulp.task("watch-ts",["browser-sync"], function(){
-	console.log("'build-and-watch' telling gulp to watch the TypeScript, CSS, & html folders"
+	console.log("'build-and-watch' telling gulp to watch the ts/, styles/, & html/ folders"
 					+ " after telling gulp to watch the prod folders.");
 /*	browserSync({
 		server: {
@@ -147,7 +147,7 @@ gulp.task("build-and-watch",["build-all"], function(){
 	return gulp.watch([
 		"source/ts/**/*.ts"
 		,"source/styles/**/*.css"
-		,"source/**/*.html"
+		,"source/html/**/*.html"
 	], ["build-all","bundle"]);
 });//watch-ts
 
@@ -161,7 +161,7 @@ gulp.task("build-and-watch",["build-all"], function(){
 
 
 // Trying to make a minimal file...
-// I've moved these down here because they're just dding to the confusion of trying to learn
+// I've moved these down here because they're just adding to the confusion of trying to learn
 // this stuff & I'll reposition & add these back once I understand how they're supposed
 // to be wired together.
 
@@ -200,7 +200,7 @@ gulp.task("browser-sync",["test"], function(){
 //define a gulp task to compile the application's TypeScript test code into Javascript
 gulp.task("build-ts-tests", function(){
     return gulp.src( source + "test/**/**.test.ts")//get these files
-                .pipe(ts(tsTestProject))//send them into the ts object with the test configuration
+                .pipe( ts(tsTestProject()) )//send them into the ts object with the test configuration
                 .js.pipe(gulp.dest( transpiled + "test/"));//send the js output into this dir
 });
 

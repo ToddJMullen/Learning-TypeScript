@@ -1,10 +1,12 @@
-var BookSite = (function () {
-    function BookSite(pageAry) {
+class BookSite {
+    constructor(pageAry) {
         this.NAME_BOOK_TITLE = "Learning TypeScript";
         this.NAME_DOM_MSG_LOG = "pageMsgs";
         this.NAME_DOM_TITLE = "pageTitle";
         this.NAME_DOM_SUBTITLE = "pageSubTitle";
         this.NAME_DOM_NAV = "pageNav";
+        this.URI_CH3_USERS = "api/users.json";
+        this.URI_CH3_ORDERS = "api/orders.json";
         this.pageAry = [];
         this._title = document.getElementById(this.NAME_DOM_TITLE);
         this._subTitle = document.getElementById(this.NAME_DOM_SUBTITLE);
@@ -27,12 +29,13 @@ var BookSite = (function () {
         else {
             console.warn("The page's DOM nav element was not found. Id:", this.NAME_DOM_NAV);
         }
+        document.getElementById(this.NAME_DOM_MSG_LOG).innerText = "";
+        return this;
     }
-    BookSite.prototype.buildNavMenu = function () {
-        var _this = this;
+    buildNavMenu() {
         if (!this._nav || !this.pageAry.length) {
         }
-        this.pageAry.map(function (page) {
+        this.pageAry.map((page) => {
             var li = document.createElement("li"), a = document.createElement("a");
             a.setAttribute("href", page.filename);
             a.setAttribute("title", page.title);
@@ -41,38 +44,49 @@ var BookSite = (function () {
             if (page.isActive) {
                 li.setAttribute("class", "active");
             }
-            _this._nav.appendChild(li);
+            this._nav.appendChild(li);
         });
         console.log("Created " + this.pageAry.length + " page links.");
-    };
-    BookSite.prototype.log = function (msg) {
+    }
+    log(msg) {
         var p = document.createElement("p"), page = document.getElementById(this.NAME_DOM_MSG_LOG);
         p.innerHTML = msg;
         page.appendChild(p);
-    };
-    BookSite.prototype.msg = function (msg, page) {
-        console.log("Page::msg() called:", msg);
+    }
+    title(title) {
+        this.log("<h1>" + title + "</h1>");
+    }
+    hr() {
+        this.log("<hr />");
+    }
+    section(label, page, line) {
+        this.msg("<h2>" + label + "</h2>", page, line);
+    }
+    msg(msg, page, line = "") {
+        console.log("BookSite::msg() called:", msg);
         if (msg) {
             if (page) {
-                msg = msg + "<br />Current page: #" + page + "<hr />";
+                if (line) {
+                    line = "<div class='line' title='Source Line #" + line + "'>#" + line + "</div>";
+                }
+                msg = "<hr /><div class='pageNum'>Pg " + page
+                    + line + "</div>" + msg + "<hr />";
             }
             this.log(msg);
         }
-    };
-    BookSite.prototype.detectCurrentPage = function () {
-        var _this = this;
+    }
+    detectCurrentPage() {
         var filename = window.location.pathname.split("/").pop();
-        this.pageAry.map(function (page) {
+        this.pageAry.map(page => {
             page.isActive = page.filename == filename;
             if (page.isActive) {
-                _this._currentPage = page;
+                this._currentPage = page;
             }
         });
-    };
-    return BookSite;
-}());
-var Page = (function () {
-    function Page(filename, label, title, isActive) {
+    }
+}
+class SitePage {
+    constructor(filename, label, title, isActive) {
         this.isActive = false;
         this.filename = filename;
         this.label = label;
@@ -81,38 +95,37 @@ var Page = (function () {
             this.isActive = isActive;
         }
     }
-    return Page;
-}());
-var TsCounter = (function () {
-    function TsCounter() {
-        console.log("Counter::constructor()");
+}
+class TsCounter {
+    constructor() {
+        console.log("TsCounter::constructor()");
         this.reset();
     }
-    TsCounter.prototype.get = function () {
-        console.log("Counter::get()");
+    get() {
+        console.log("TsCounter::get()");
         return this._i;
-    };
-    TsCounter.prototype.set = function (i) {
-        console.log("Counter::set()", i);
+    }
+    set(i) {
+        console.log("TsCounter::set()", i);
         this._i = i;
-    };
-    TsCounter.prototype.increment = function () {
-        console.log("Counter::increment()");
+    }
+    increment() {
+        console.log("TsCounter::increment()");
         ++this._i;
-    };
-    TsCounter.prototype.decrement = function () {
-        console.log("Counter::decrement()");
+    }
+    decrement() {
+        console.log("TsCounter::decrement()");
         --this._i;
-    };
-    TsCounter.prototype.reset = function () {
-        console.log("Counter::reset()");
+    }
+    reset() {
+        console.log("TsCounter::reset()");
         this._i = 0;
-    };
-    return TsCounter;
-}());
+    }
+}
 var pageList = [
-    new Page("index.html", "Home", "Home yada yada"),
-    new Page("chapter2.html", "Chapter 2", "Automating your development workflow... ( hypothetically speaking =b )"),
-    new Page("chapter3.html", "Chapter 3", "Working with Functions")
+    new SitePage("index.html", "Home", "Home yada yada"),
+    new SitePage("chapter2.html", "Chapter 2", "Automating your development workflow... ( hypothetically speaking =b )"),
+    new SitePage("chapter3.html", "Chapter 3", "Working with Functions"),
+    new SitePage("chapter4.html", "Chapter 4", "Object-OrientedProgramming with TypeScript")
 ];
-var site = new BookSite(pageList);
+var page = new BookSite(pageList);
