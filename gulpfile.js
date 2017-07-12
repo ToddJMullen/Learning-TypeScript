@@ -79,20 +79,20 @@ gulp.task("lint", function(){
 //
 //define a gulp task to compile the application's TypeScript into Javascript
 gulp.task("build-ts", function(){
-	console.log("'build-ts' building TypeScript files.");
+//	console.log("'build-ts' building TypeScript files.");
     return gulp.src( source + "ts/**/**.ts")
 			.pipe(tsProject())
             .js.pipe(gulp.dest( transpiled + "out/js"));
 });
 
 gulp.task("build-css", function(){
-	console.log("'bundle-css' parsing css files.");
+//	console.log("'bundle-css' parsing css files.");
 	return gulp.src( source + "styles/**/**.css")
 			.pipe( gulp.dest( transpiled + "out/css/"));
 });
 
 gulp.task("build-html", function(){
-	console.log("'bundle-html' copying html files.");
+//	console.log("'bundle-html' copying html files.");
 	return gulp.src( source + "html/**/*.html")
 			.pipe( gulp.dest( prodDistro + ""));
 });
@@ -102,7 +102,7 @@ gulp.task("build-html", function(){
 // define Prod build tasks for combining, minifying etc.
 /////////////////////
 gulp.task("bundle-js", function(){
-	console.log("'bundle-js' parsing built Javascript files.")
+//	console.log("'bundle-js' parsing built Javascript files.")
 	return gulp.src( transpiled + "out/js/**.js")
 //				.pipe(browserified)
 //				.pipe(sourcemaps.init({loadMaps: true}))
@@ -113,7 +113,7 @@ gulp.task("bundle-js", function(){
 });
 
 gulp.task("bundle-css", function(){
-	console.log("'bundle-css' parsing/copying stylesheet files.")
+//	console.log("'bundle-css' parsing/copying stylesheet files.")
 	return gulp.src( transpiled + "out/css/**.css")
 //				.pipe(browserified)
 //				.pipe(buffer())//added to fix dest.write() error
@@ -124,7 +124,7 @@ gulp.task("bundle-css", function(){
 
 //group together all the build-all related tasks
 gulp.task("bundle", function(cb){
-	console.log("'bundle' calling 'build-all' after 'bundle-js'");
+//	console.log("'bundle' calling 'build-all' after 'bundle-js'");
 	runSequence("build-all", [
 		"bundle-js"
 		,"bundle-css"

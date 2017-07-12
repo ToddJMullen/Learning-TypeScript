@@ -37,7 +37,7 @@ class BookSite {
         }
         this.pageAry.map((page) => {
             var li = document.createElement("li"), a = document.createElement("a");
-            a.setAttribute("href", page.filename);
+            a.setAttribute("href", page.filepath);
             a.setAttribute("title", page.title);
             a.innerText = page.label;
             li.appendChild(a);
@@ -67,7 +67,7 @@ class BookSite {
         if (msg) {
             if (page) {
                 if (line) {
-                    line = "<div class='line' title='Source Line #" + line + "'>#" + line + "</div>";
+                    line = "<div class='line line" + line + "' title='Source Line #" + line + "'>#" + line + "</div>";
                 }
                 msg = "<hr /><div class='pageNum'>Pg " + page
                     + line + "</div>" + msg + "<hr />";
@@ -76,19 +76,77 @@ class BookSite {
         }
     }
     detectCurrentPage() {
-        var filename = window.location.pathname.split("/").pop();
+        var filepath = window.location.pathname.split("/").pop();
         this.pageAry.map(page => {
-            page.isActive = page.filename == filename;
+            page.isActive = page.filepath == filepath;
             if (page.isActive) {
                 this._currentPage = page;
             }
         });
     }
+    setUri(location) {
+        console.log("BookSite::setUri() called with SitePage location: ", location);
+        let uri = window.location.pathname;
+        if (location.filepath) {
+            uri = location.filepath;
+        }
+        if (location.query) {
+            if (location.query[0] != "?") {
+                location.query = "?" + location.query;
+            }
+            uri += location.query;
+        }
+        if (location.hash) {
+            if (location.hash[0] != "#") {
+                location.hash = "#" + location.hash;
+            }
+            uri += location.hash;
+        }
+        window.history.pushState(location, location.title, uri);
+        if (location.title) {
+            document.title = this.NAME_BOOK_TITLE + " | " + location.title;
+        }
+        return uri;
+    }
+    checkForPageHash() {
+        let hash = window.location.hash.replace("#", "");
+        console.log("checkForPageHash() found: ", hash);
+        if (hash) {
+            if (typeof hash === "string") {
+                this.scrollTo(hash);
+            }
+        }
+    }
+    scrollTo(target) {
+        console.log("scrollTo() got: ", target);
+        let yPos = 0;
+        if (typeof target === "number") {
+            yPos = target;
+        }
+        else if (typeof target === "string") {
+            target = $(target);
+            if (!target.length) {
+                console.error("No DOM element was found for selector: " + target);
+                return;
+            }
+            yPos = target.position().top;
+        }
+        else if (target instanceof jQuery && target.length > 0) {
+            yPos = target.position().top;
+        }
+        else if (typeof target === "object" && target.type && target.type === "click") {
+            yPos = $(this).position().top;
+        }
+        $("body").animate({ scrollTop: yPos }, 1221);
+    }
 }
 class SitePage {
-    constructor(filename, label, title, isActive) {
+    constructor(filepath, query, hash, label, title, isActive) {
         this.isActive = false;
-        this.filename = filename;
+        this.typeof = this.constructor.name;
+        this.filepath = filepath;
+        this.query = query;
+        this.hash = hash;
         this.label = label;
         this.title = title;
         if (isActive !== undefined) {
@@ -123,9 +181,18 @@ class TsCounter {
     }
 }
 var pageList = [
-    new SitePage("index.html", "Home", "Home yada yada"),
-    new SitePage("chapter2.html", "Chapter 2", "Automating your development workflow... ( hypothetically speaking =b )"),
-    new SitePage("chapter3.html", "Chapter 3", "Working with Functions"),
-    new SitePage("chapter4.html", "Chapter 4", "Object-OrientedProgramming with TypeScript")
+    new SitePage("index.html", "", "", "Home", "Home yada yada"),
+    new SitePage("chapter2.html", "", "", "Chapter 2", "Automating your development workflow... ( hypothetically speaking =b )"),
+    new SitePage("chapter3.html", "", "", "Chapter 3", "Working with Functions"),
+    new SitePage("chapter4.html", "", "", "Chapter 4", "Object-OrientedProgramming with TypeScript")
 ];
-var page = new BookSite(pageList);
+var br = "<br />", page = new BookSite(pageList);
+window.addEventListener("popstate", function (e) {
+    console.log("popstate: ", e);
+    page.checkForPageHash();
+});
+$(document).on("click", "h2", page.scrollTo);
+$(document).ready(() => {
+    console.log("doc.ready()...");
+    page.checkForPageHash();
+});
