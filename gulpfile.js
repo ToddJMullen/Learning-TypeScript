@@ -60,6 +60,7 @@ gulp.task("build-all", [
 
 //define a gulp task for linting the code
 gulp.task("lint", function(){
+	console.log("\n\n\n\n\n\n\n\nBuilding...")
   return gulp.src([
     source + "ts/**/**.ts"
 //	,source + "test/**/**.test.ts"

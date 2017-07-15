@@ -84,6 +84,10 @@ class BookSite {
             }
         });
     }
+    getHistoryObj() {
+        let loc = window.location, filepath = loc.pathname, query = loc.search, hash = loc.hash, title = document.title, label = title;
+        return new SitePage(filepath, query, hash, label, title, true);
+    }
     setUri(location) {
         console.log("BookSite::setUri() called with SitePage location: ", location);
         let uri = window.location.pathname;
@@ -112,8 +116,13 @@ class BookSite {
         let hash = window.location.hash.replace("#", "");
         console.log("checkForPageHash() found: ", hash);
         if (hash) {
+            if (/^\d*$/.test(hash)) {
+                this.scrollTo(".line" + hash);
+                return;
+            }
             if (typeof hash === "string") {
                 this.scrollTo(hash);
+                return;
             }
         }
     }
@@ -191,7 +200,7 @@ window.addEventListener("popstate", function (e) {
     console.log("popstate: ", e);
     page.checkForPageHash();
 });
-$(document).on("click", "h2", page.scrollTo);
+$(document).on("click", "h2, .pageNum", page.scrollTo);
 $(document).ready(() => {
     console.log("doc.ready()...");
     page.checkForPageHash();
