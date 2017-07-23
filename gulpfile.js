@@ -60,7 +60,8 @@ gulp.task("build-all", [
 
 //define a gulp task for linting the code
 gulp.task("lint", function(){
-	console.log("\n\n\n\n\n\n\n\nBuilding...")
+	var ts = (new Date()).toLocaleString();
+	console.log("\n\n\n\n\n\n\n\nBuilding... @" + ts );
   return gulp.src([
     source + "ts/**/**.ts"
 //	,source + "test/**/**.test.ts"
@@ -104,7 +105,7 @@ gulp.task("build-html", function(){
 /////////////////////
 gulp.task("bundle-js", function(){
 //	console.log("'bundle-js' parsing built Javascript files.")
-	return gulp.src( transpiled + "out/js/**.js")
+	return gulp.src( transpiled + "out/js/**/**.js")
 //				.pipe(browserified)
 //				.pipe(sourcemaps.init({loadMaps: true}))
 //				.pipe(buffer())//added to fix dest.write() error

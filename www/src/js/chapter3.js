@@ -427,6 +427,12 @@ setTimeout(function fixOrder1() {
             });
         }
     }
+    var config = {
+        container: "sdf",
+        templateUri: "templateUri",
+        serviceUri: "serviceUri",
+        args: "args"
+    }, vq = new ViewWithQAsync(config);
     page.msg("Well, I got the bugs worked out &ndash; I think. I'm not sure because that's all that"
         + " was written.  There's no actual invocation of the code to give a"
         + " definitive &ldquo;It works!&rdquo;", 95, 649);

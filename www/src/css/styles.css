@@ -39,6 +39,10 @@ h2{
 hr {
     margin-bottom: 22px;
 }
+hr:first-child {
+    margin-bottom: 10px;
+    margin-top: 50px;
+}
 
 a:link{
 	text-decoration: none;
@@ -57,6 +61,11 @@ li{
 #pageMsgs{
 	padding: 7px;
 	background-color: rgba(235,255,235,.6 );
+	background: rgb(207,231,250);
+	background: -moz-radial-gradient(center, ellipse cover, rgba(207,231,250,1) 0%, rgba(99,147,193,1) 100%);
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(207,231,250,1) 0%,rgba(99,147,193,1) 100%);
+	background: radial-gradient(ellipse at center, rgba(207,231,250,1) 0%,rgba(99,147,193,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7fa', endColorstr='#6393c1',GradientType=1 );
 }
 
 .pageNum{

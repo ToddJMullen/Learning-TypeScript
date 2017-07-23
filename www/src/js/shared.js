@@ -193,7 +193,8 @@ var pageList = [
     new SitePage("index.html", "", "", "Home", "Home yada yada"),
     new SitePage("chapter2.html", "", "", "Chapter 2", "Automating your development workflow... ( hypothetically speaking =b )"),
     new SitePage("chapter3.html", "", "", "Chapter 3", "Working with Functions"),
-    new SitePage("chapter4.html", "", "", "Chapter 4", "Object-OrientedProgramming with TypeScript")
+    new SitePage("chapter4.html", "", "", "Chapter 4", "Object-Oriented Programming with TypeScript"),
+    new SitePage("ch4-generic-classes.html", "", "", "Ch4 - Generic Classes", "OOP Generic Classes with TypeScript")
 ];
 var br = "<br />", page = new BookSite(pageList);
 window.addEventListener("popstate", function (e) {
